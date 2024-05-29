@@ -13,6 +13,7 @@ export const useIssues = () => {
     queryKey: ["issues"],
     queryFn: getIssues,
     refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
   })
 
   return issuesQuery
