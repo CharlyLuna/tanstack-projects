@@ -7,8 +7,8 @@ import { State } from "../interfaces/issue"
 
 export const ListView = () => {
   const [selectedLabels, setSelectedLabels] = useState<string[]>([])
-  const issuesQuery = useIssues()
   const [state, setState] = useState<State>()
+  const issuesQuery = useIssues({ state, labels: selectedLabels })
 
   const onLabelChanged = (labelName: string) => {
     selectedLabels.includes(labelName)
@@ -20,7 +20,9 @@ export const ListView = () => {
     <div className='row mt-5'>
       <div className='col-12 col-md-8 d-flex justify-content-center'>
         {issuesQuery.isLoading ? (
-          <LoadingIcon />
+          <div className='loading-container'>
+            <LoadingIcon />
+          </div>
         ) : (
           <IssueList
             issues={issuesQuery.data ?? []}

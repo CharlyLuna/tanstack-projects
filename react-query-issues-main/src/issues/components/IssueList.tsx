@@ -10,7 +10,7 @@ interface Props {
 export const IssueList = ({ issues, state, onStateChange }: Props) => {
   return (
     <div
-      style={{ maxHeight: "600px", overflowY: "auto" }}
+      style={{ maxHeight: "600px", width: "100%", overflowY: "auto" }}
       className='card border-white'
     >
       <div className='card-header bg-dark'>
@@ -41,6 +41,14 @@ export const IssueList = ({ issues, state, onStateChange }: Props) => {
           </li>
         </ul>
       </div>
+      {issues.length === 0 && (
+        <div
+          style={{ height: "400px" }}
+          className='text-dark text-center mt-4 fw-bold'
+        >
+          <p>No issues for the selected filters.</p>
+        </div>
+      )}
       <div className='card-body text-dark'>
         {issues.map((issue) => (
           <IssueItem key={issue.id} issue={issue} />

@@ -11,15 +11,7 @@ export const IssueView = () => {
 
   if (issue.isLoading) {
     return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className='loading-container'>
         <LoadingIcon />
       </div>
     )

@@ -14,19 +14,19 @@ export const IssueItem = ({ issue }: Props) => {
   const creator = issue.user
   const navigate = useNavigate()
 
-  const prefetchData = () => {
-    console.log("mouse enter")
-    queryClient.prefetchQuery({
-      queryKey: ["issue", issue.number],
-      queryFn: () => getIssueInfo(issue.number),
-      staleTime: 1000 * 30,
-    })
-    queryClient.prefetchQuery({
-      queryKey: ["issue", issue.number, "comments"],
-      queryFn: () => getIsuueComments(issue.number),
-      staleTime: 1000 * 30,
-    })
-  }
+  // const prefetchData = () => {
+  //   console.log("mouse enter")
+  //   queryClient.prefetchQuery({
+  //     queryKey: ["issue", issue.number],
+  //     queryFn: () => getIssueInfo(issue.number),
+  //     staleTime: 1000 * 30,
+  //   })
+  //   queryClient.prefetchQuery({
+  //     queryKey: ["issue", issue.number, "comments"],
+  //     queryFn: () => getIsuueComments(issue.number),
+  //     staleTime: 1000 * 30,
+  //   })
+  // }
 
   const preSetData = () => {
     queryClient.setQueryData(["issue", issue.number], issue, {
@@ -56,6 +56,17 @@ export const IssueItem = ({ issue }: Props) => {
             #{issue.number} opened {timeSinceCreation} ago by{" "}
             <span className='fw-bold'>{creator.login}</span>
           </span>
+          <div>
+            {issue.labels.map((label) => (
+              <div
+                key={label.id}
+                className='badge rounded-pill m-1'
+                style={{ backgroundColor: `#${label.color}`, color: "black" }}
+              >
+                {label.name}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className='d-flex align-items-center'>
