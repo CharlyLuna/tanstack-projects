@@ -16,7 +16,7 @@ export const ListView = () => {
 
   return (
     <div className='row mt-5'>
-      <div className='col-12 col-md-8'>
+      <div className='col-12 col-md-8 d-flex justify-content-center'>
         {issuesQuery.isLoading ? (
           <LoadingIcon />
         ) : (

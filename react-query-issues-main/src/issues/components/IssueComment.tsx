@@ -19,7 +19,14 @@ export const IssueComment: FC<Props> = ({ issue }) => {
           <span className='mx-2'>{issue.user.login} commented</span>
         </div>
         <div className='card-body text-dark'>
-          <ReactMarkdown>{issue.body}</ReactMarkdown>
+          <ReactMarkdown
+            children={issue.body}
+            components={{
+              img: ({ node, ...props }) => (
+                <img style={{ maxWidth: "100%" }} {...props} />
+              ),
+            }}
+          />
         </div>
       </div>
     </div>
