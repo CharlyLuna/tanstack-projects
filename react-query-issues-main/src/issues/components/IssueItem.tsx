@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { Issue } from "../interfaces/issue"
 import { useNavigate } from "react-router-dom"
 import { getIssueInfo, getIsuueComments } from "../hooks"
+import { timeSince } from "../../helpers/timeSince"
 
 interface Props {
   issue: Issue
@@ -10,7 +11,7 @@ interface Props {
 
 export const IssueItem = ({ issue }: Props) => {
   const queryClient = useQueryClient()
-  const timeSinceCreation = Date.now() - new Date(issue.created_at).getTime()
+  const timeSinceCreation = timeSince(issue.created_at)
   const creator = issue.user
   const navigate = useNavigate()
 
