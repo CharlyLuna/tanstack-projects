@@ -1,14 +1,19 @@
 import { useQuery } from "@tanstack/react-query"
 import { githubApi } from "../../api/githubApi"
 import type { Issue, State } from "../interfaces/issue"
-import { sleep } from "../../helpers/functions"
+import { useEffect, useState } from "react"
 
 interface Props {
   state?: State
   labels: string[]
+  page?: number
 }
 
-const getIssues = async (labels: string[], state?: State): Promise<Issue[]> => {
+const getIssues = async ({
+  labels,
+  state,
+  page = 1,
+}: Props): Promise<Issue[]> => {
   const params = new URLSearchParams()
   if (state) params.append("state", state)
 
@@ -17,7 +22,7 @@ const getIssues = async (labels: string[], state?: State): Promise<Issue[]> => {
     params.append("labels", labelString)
   }
 
-  params.append("page", "1")
+  params.append("page", page.toString())
 
   params.append("per_page", "5")
 
@@ -25,13 +30,33 @@ const getIssues = async (labels: string[], state?: State): Promise<Issue[]> => {
   return data
 }
 
-export const useIssues = ({ state, labels }: Props) => {
+export const useIssues = ({ state, labels, page = 1 }: Props) => {
+  const [currentPage, setCurrentPage] = useState(page)
   const issuesQuery = useQuery({
-    queryKey: ["issues", { state, labels }],
-    queryFn: () => getIssues(labels, state),
+    queryKey: ["issues", { state, labels, currentPage }],
+    queryFn: () => getIssues({ labels, state, page: currentPage }),
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 60,
   })
 
-  return issuesQuery
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [state, labels])
+
+  const nextPage = () => {
+    if (issuesQuery.data?.length === 0) return
+    setCurrentPage((prev) => prev + 1)
+  }
+
+  const prevPage = () => {
+    if (currentPage === 1) return
+    setCurrentPage((prev) => prev - 1)
+  }
+
+  return {
+    issuesQuery,
+    currentPage: issuesQuery.isFetching ? "loading..." : currentPage,
+    nextPage,
+    prevPage,
+  }
 }

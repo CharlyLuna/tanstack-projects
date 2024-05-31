@@ -43,7 +43,7 @@ export const IssueList = ({ issues, state, onStateChange }: Props) => {
       </div>
       {issues.length === 0 && (
         <div
-          style={{ height: "400px" }}
+          style={{ height: "600px" }}
           className='text-dark text-center mt-4 fw-bold'
         >
           <p>No issues for the selected filters.</p>
