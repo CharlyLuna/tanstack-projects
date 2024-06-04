@@ -1,7 +1,10 @@
 export { productsApi } from "./api/productsApi"
+export * as productActions from "./services/actions"
 
 export { ProductCard } from "./components/ProductCard"
 export { ProductList } from "./components/ProductList"
+
+export { useProducts } from "./hooks/useProducts"
 
 export type { Product } from "./interfaces/product"
 
