@@ -31,7 +31,8 @@ export const getProductById = async ({ id }: GetProductByIdOptions) => {
 export type ProductLike = Omit<Product, "id" | "rating">
 
 export const createProduct = async (product: ProductLike) => {
-  sleep(2)
+  // await sleep(5)
+  // throw new Error("Error")
   const { data } = await productsApi.post<Product>("/products", product)
   return data
 }
